@@ -40,6 +40,11 @@ log4j:
   configuration:
     path: log4j-local.properties
 
+#Ficheiro de configuracao da SC
+sc:
+  config:
+    file: ""
+
 #customom properties ex local url
 app:
   baseUrl: /tvc-manager
