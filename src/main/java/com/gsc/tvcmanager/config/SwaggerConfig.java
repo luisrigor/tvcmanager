@@ -2,7 +2,6 @@ package com.gsc.tvcmanager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -24,7 +23,7 @@ public class SwaggerConfig {
     @Bean
     Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .ignoredParameterTypes(AuthenticationPrincipal.class)
+                //.ignoredParameterTypes(AuthenticationPrincipal.class)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
@@ -34,8 +33,8 @@ public class SwaggerConfig {
                 .apiInfo(apiEndPointsInfo());
     }
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Module CRM")
-                .description("This module contains the functionalities related to the CRM module")
+        return new ApiInfoBuilder().title("Module Tvc Manager")
+                .description("This module contains the functionalities related to the Tvc Manager module")
                 .version("1.0.0")
                 .build();
     }

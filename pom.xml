@@ -89,10 +89,10 @@
 			<artifactId>SCAS400Client</artifactId>
 			<version>20221010</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>GSC</groupId>
 			<artifactId>SCGSCWSAuthentication</artifactId>
