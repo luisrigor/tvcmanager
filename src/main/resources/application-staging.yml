@@ -7,10 +7,10 @@ server:
 
 
 spring:
-  #development
+  #staging
   config:
     activate:
-      on-profile: development
+      on-profile: staging
   jpa:
     show-sql: true
     properties:
@@ -35,7 +35,7 @@ springdoc:
 # loggin config file by profile
 log4j:
   configuration:
-    path: log4j-dev.properties
+    path: log4j-staging.properties
 
 #Ficheiro de configuracao da SC
 sc:
