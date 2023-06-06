@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Profile(value = {"development"} )
+@Profile(value = {"local"} )
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(

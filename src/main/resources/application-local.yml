@@ -43,10 +43,14 @@ log4j:
 #Ficheiro de configuracao da SC
 sc:
   config:
-    file: ""
+    file: "C:/Users/Luis Parra/OneDrive - Rigor/Documentos/REPOSITORIOS/Proyectos GITHUB/tvcmanager/src/main/resources/sc_config.properties"
 
 #customom properties ex local url
 app:
   baseUrl: /tvc-manager
+  server:
+    type: 10
+  auth:
+    token-name: accessToken
 
 

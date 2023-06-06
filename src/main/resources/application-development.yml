@@ -45,6 +45,10 @@ sc:
 #customom properties ex local url
 app:
   baseUrl: /tvc-manager
+  server:
+    type: 10
+  auth:
+    token-name: accessToken
 
 secundary:
   dbs:
