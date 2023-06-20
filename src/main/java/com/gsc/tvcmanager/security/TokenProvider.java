@@ -31,10 +31,10 @@ public class TokenProvider {
 
    private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
-   private static final String CREATED_BY = "CRMTcap-TokenProvider";
+   private static final String CREATED_BY = "Tcap-TokenProvider";
 
-   private static final String ISSUER = "CRMTcap";
-   private static final String AUDIENCE = "CRMTcap Clients";
+   private static final String ISSUER = "Tcap";
+   private static final String AUDIENCE = "Tcap Clients";
    private static final String ROLES = "roles";
    private static final String JWT_ENVIRONMENT = "environment";
    private static final String JWT_CLIENT_ID = "client";
