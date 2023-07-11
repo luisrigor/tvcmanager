@@ -31,7 +31,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "msEntityManagerFactory",
         transactionManagerRef = "msTransactionManager",
-        basePackages = {"com.gsc.tvcmanager.repository"}
+        basePackages = {"com.gsc.tvcmanager.repository.toyota"}
 )
 public class DbConfig {
 

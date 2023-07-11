@@ -1,5 +1,5 @@
-package com.gsc.tvcmanager.repository;
-import com.gsc.tvcmanager.model.entity.Client;
+package com.gsc.tvcmanager.repository.toyota;
+import com.gsc.tvcmanager.model.toyota.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

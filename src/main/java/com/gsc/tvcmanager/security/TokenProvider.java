@@ -2,11 +2,12 @@ package com.gsc.tvcmanager.security;
 
 import com.gsc.tvcmanager.constants.AppProfile;
 import com.gsc.tvcmanager.exceptions.AuthTokenException;
-import com.gsc.tvcmanager.model.entity.LoginKey;
-import com.gsc.tvcmanager.model.entity.ServiceLogin;
-import com.gsc.tvcmanager.repository.ConfigurationRepository;
-import com.gsc.tvcmanager.repository.LoginKeyRepository;
-import com.gsc.tvcmanager.repository.ServiceLoginRepository;
+import com.gsc.tvcmanager.model.toyota.entity.LoginKey;
+import com.gsc.tvcmanager.model.toyota.entity.ServiceLogin;
+import com.gsc.tvcmanager.repository.toyota.ConfigurationRepository;
+import com.gsc.tvcmanager.repository.toyota.LoginKeyRepository;
+import com.gsc.tvcmanager.repository.toyota.ServiceLoginRepository;
+import com.rg.dealer.Dealer;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
@@ -26,6 +27,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.gsc.tvcmanager.constants.DATAConstants.TVC_MANAGER_APP_LEXUS;
+import static com.gsc.tvcmanager.constants.DATAConstants.TVC_MANAGER_APP_TOYOTA;
+
 @Service
 public class TokenProvider {
 
@@ -38,6 +42,8 @@ public class TokenProvider {
    private static final String ROLES = "roles";
    private static final String JWT_ENVIRONMENT = "environment";
    private static final String JWT_CLIENT_ID = "client";
+   private static final String OID_DEALER_PARENT = "dealer_parent";
+   private static final String OID_NET = "oid_net";
 
    private final ConfigurationRepository configurationRepository;
    private final ServiceLoginRepository serviceLoginRepository;
@@ -52,9 +58,14 @@ public class TokenProvider {
       this.activeProfile = activeProfile;
    }
 
-   public String createToken(Authentication authentication) throws AuthenticationException {
+   public String createToken(Authentication authentication, String appId) throws AuthenticationException {
       UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
+      if(appId.equals(String.valueOf(TVC_MANAGER_APP_TOYOTA))) {
+         userPrincipal.setOidNet(Dealer.OID_NET_TOYOTA);
+      } else if (appId.equals(String.valueOf(TVC_MANAGER_APP_LEXUS))) {
+         userPrincipal.setOidNet(Dealer.OID_NET_LEXUS);
+      }
       Optional<LoginKey> loginKey = getKey();
 
       if (!loginKey.isPresent()) {
@@ -76,6 +87,8 @@ public class TokenProvider {
          .claim(JWT_ENVIRONMENT, activeProfile)
          .claim(JWT_CLIENT_ID, userPrincipal.getClientId())
          .claim(ROLES, userPrincipal.getRoles())
+         .claim(OID_DEALER_PARENT, userPrincipal.getOidDealerParent())
+         .claim(OID_NET, userPrincipal.getOidNet())
          .compact();
    }
 
@@ -131,7 +144,9 @@ public class TokenProvider {
             new UserPrincipal(
                claims.getSubject(),
                roles,
-               claims.get(JWT_CLIENT_ID, Long.class)
+               claims.get(JWT_CLIENT_ID, Long.class),
+               claims.get(OID_NET, String.class),
+               claims.get(OID_DEALER_PARENT, String.class)
             ),
             Collections.emptyList()
          );
@@ -165,17 +180,17 @@ public class TokenProvider {
    private Set<AppProfile> getRoles(ServiceLogin sl) {
       Set<AppProfile> profiles = new HashSet<>();
 
-      if (Objects.equals(sl.getUploadFile(), Boolean.TRUE)) {
-         profiles.add(AppProfile.UPLOAD_FILE);
-      }
-
-      if (Objects.equals(sl.getCleanupProjects(), Boolean.TRUE)) {
-         profiles.add(AppProfile.CLEANUP_PROJECTS);
-      }
-
-      if (Objects.equals(sl.getDownloadProjectFiles(), Boolean.TRUE)) {
-         profiles.add(AppProfile.DOWNLOAD_PROJECT_FILES);
-      }
+//      if (Objects.equals(sl.getUploadFile(), Boolean.TRUE)) {
+//         profiles.add(AppProfile.UPLOAD_FILE);
+//      }
+//
+//      if (Objects.equals(sl.getCleanupProjects(), Boolean.TRUE)) {
+//         profiles.add(AppProfile.CLEANUP_PROJECTS);
+//      }
+//
+//      if (Objects.equals(sl.getDownloadProjectFiles(), Boolean.TRUE)) {
+//         profiles.add(AppProfile.DOWNLOAD_PROJECT_FILES);
+//      }
 
       return profiles;
    }

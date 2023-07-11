@@ -30,7 +30,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "msEntityManagerFactory",
         transactionManagerRef = "msTransactionManager",
-        basePackages = {"com.gsc.tvcmanager.repository"}
+        basePackages = {"com.gsc.tvcmanager.repository.toyota"}
 )
 public class DbConfigLocal {
 
@@ -55,15 +55,15 @@ public class DbConfigLocal {
         dbToynet.setPassword("db2admin");
         conn.setDataSource(dbToynet, "jdbc/dbtoynet");
         log.info("Datasource initialized successfully: jdbc/dbtoynet");
-        DB2SimpleDataSource usrLogon = new DB2SimpleDataSource();
-        usrLogon.setServerName("scdbesrvb.sc.pt");
-        usrLogon.setPortNumber(50000);
-        usrLogon.setDatabaseName("USRLOGON");
-        usrLogon.setDriverType(4);
-        usrLogon.setUser("db2inst1");
-        usrLogon.setPassword("db2admin");
-        conn.setDataSource(usrLogon, "jdbc/usrlogon");
-        log.info("Datasource initialized successfully: jdbc/usrlogon");
+        DB2SimpleDataSource dblexxtaps = new DB2SimpleDataSource();
+        dblexxtaps.setServerName("scdbesrvb.sc.pt");
+        dblexxtaps.setPortNumber(50000);
+        dblexxtaps.setDatabaseName("USRLOGON");
+        dblexxtaps.setDriverType(4);
+        dblexxtaps.setUser("db2inst1");
+        dblexxtaps.setPassword("db2admin");
+        conn.setDataSource(dblexxtaps, "jdbc/lexxtaps");
+        log.info("Datasource initialized successfully: jdbc/lexxtaps");
     }
 
     @Primary
@@ -82,7 +82,7 @@ public class DbConfigLocal {
     LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("msDatasource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.gsc.tvcmanager.model.entity")
+                .packages("com.gsc.tvcmanager.model.toyota.entity")
                 .persistenceUnit("msPersistenceUnit")
                 .properties(getHibernateProperties())
                 .build();

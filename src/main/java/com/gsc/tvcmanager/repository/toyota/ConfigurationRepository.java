@@ -1,7 +1,7 @@
-package com.gsc.tvcmanager.repository;
+package com.gsc.tvcmanager.repository.toyota;
 
 
-import com.gsc.tvcmanager.model.entity.Configuration;
+import com.gsc.tvcmanager.model.toyota.entity.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ConfigurationRepository extends JpaRepository<Configuration, Long> {

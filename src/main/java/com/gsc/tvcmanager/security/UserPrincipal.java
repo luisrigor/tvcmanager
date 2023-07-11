@@ -2,14 +2,22 @@ package com.gsc.tvcmanager.security;
 
 
 import com.gsc.tvcmanager.constants.AppProfile;
+import lombok.Getter;
 
 import java.util.Set;
 
+@Getter
 public class UserPrincipal {
 
    private final String username;
    private final Set<AppProfile> roles;
    private final Long clientId;
+   private String oidNet;
+   private Boolean caMember;
+   private String oidDealer;
+
+
+   private String oidDealerParent;
 
    public UserPrincipal(String username, Set<AppProfile> roles, Long clientId) {
       this.username = username;
@@ -17,36 +25,30 @@ public class UserPrincipal {
       this.clientId = clientId;
    }
 
-   public String getUsername() {
-      return username;
+   public UserPrincipal(String username, Set<AppProfile> roles, Long clientId, String oidNet, String oidDealerParent) {
+      this.username = username;
+      this.roles = roles;
+      this.clientId = clientId;
+      this.oidNet = oidNet;
+      this.caMember = caMember;
+      this.oidDealerParent = oidDealerParent;
    }
 
-   public Set<AppProfile> getRoles() {
-      return roles;
+
+   public void setOidNet(String oidNet) {
+      this.oidNet = oidNet;
    }
 
-   public Long getClientId() {
-      return clientId;
+   public void setCaMember(Boolean caMember) {
+      this.caMember = caMember;
+   }
+   public void setOidDealer(String oidDealer) {
+      this.oidDealer = oidDealer;
    }
 
-   public boolean canUploadFiles() {
-      return roles.contains(AppProfile.APPROVAL_MANAGER) || roles.contains(AppProfile.PRODUCT_MANAGER) || roles.contains(AppProfile.UPLOAD_FILE);
+   public void setOidDealerParent(String oidDealerParent) {
+      this.oidDealerParent = oidDealerParent;
    }
 
-   public boolean isManager() {
-      return roles.contains(AppProfile.APPROVAL_MANAGER) || roles.contains(AppProfile.PRODUCT_MANAGER);
-   }
-
-   public boolean canDownloadCSVFiles() {
-      return roles.contains(AppProfile.APPROVAL_MANAGER);
-   }
-
-   public boolean canCleanupProjects() {
-      return roles.contains(AppProfile.CLEANUP_PROJECTS);
-   }
-
-   public boolean canDownloadProjectFiles() {
-      return isManager() || roles.contains(AppProfile.DOWNLOAD_PROJECT_FILES);
-   }
 
 }

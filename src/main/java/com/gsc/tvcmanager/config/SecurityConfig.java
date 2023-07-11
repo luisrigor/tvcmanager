@@ -3,8 +3,8 @@ package com.gsc.tvcmanager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsc.tvcmanager.config.environment.EnvironmentConfig;
-import com.gsc.tvcmanager.repository.ClientRepository;
-import com.gsc.tvcmanager.repository.ConfigurationRepository;
+import com.gsc.tvcmanager.repository.toyota.ClientRepository;
+import com.gsc.tvcmanager.repository.toyota.ConfigurationRepository;
 import com.gsc.tvcmanager.security.JwtAuthenticationFilter;
 import com.gsc.tvcmanager.security.JwtAuthenticationManager;
 import com.gsc.tvcmanager.security.RestAuthenticationEntryPoint;
@@ -36,6 +36,7 @@ public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
             "/sign-in",
+            "/sign-in/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/swagger-resources/**",

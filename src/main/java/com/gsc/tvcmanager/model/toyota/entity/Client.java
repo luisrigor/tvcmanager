@@ -1,4 +1,4 @@
-package com.gsc.tvcmanager.model.entity;
+package com.gsc.tvcmanager.model.toyota.entity;
 
 import lombok.Getter;
 import lombok.Setter;

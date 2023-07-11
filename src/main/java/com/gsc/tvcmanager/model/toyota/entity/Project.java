@@ -1,4 +1,4 @@
-package com.gsc.tvcmanager.model.entity;
+package com.gsc.tvcmanager.model.toyota.entity;
 
 import com.gsc.tvcmanager.constants.ProjectStatusType;
 import lombok.Getter;
