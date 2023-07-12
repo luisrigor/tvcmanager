@@ -66,10 +66,6 @@
 			<version>3.12.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.10.1</version>
@@ -118,12 +114,7 @@
 			<artifactId>SCA2P</artifactId>
 			<version>20230210-STAGING</version>
 		</dependency>
-		<dependency>
-			<groupId>GSC</groupId>
-			<artifactId>SCMicrosoft</artifactId>
-			<version>20221024-STAGING</version>
-		</dependency>
-		<dependency>
+	    <dependency>
 			<groupId>GSC</groupId>
 			<artifactId>SCWSCARDB</artifactId>
 			<version>20230320</version>

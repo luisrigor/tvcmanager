@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 @Table(name = "TVC_USED_CARS_PREVISION_SALES")
 public class TVCUsedCarsPrevisionSales {
 
+    public static final String STATUS_OPEN			= "Aberto";
+    public static final String STATUS_CLOSE			= "Fechado";
+    public static final String PREVISION_TYPE_ANUAL	= "Anual";
+    public static final String PREVISION_TYPE_MENSAL= "Mensal";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

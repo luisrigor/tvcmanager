@@ -7,4 +7,5 @@ public interface IndicatorService {
 
     IndicatorUsedFilesDTO getIndicatorsUsedFilesList(UserPrincipal userPrincipal, String oidDealer, Integer year, String uploadDir);
     IndicatorUsedFilesDTO saveIndicatorsUsedSalesInfo(UserPrincipal userPrincipal, String oidDealer, Integer year, String uploadDir);
+    void getIndicatorsUsedSalesInfo(UserPrincipal userPrincipal, String oidDealer);
 }
