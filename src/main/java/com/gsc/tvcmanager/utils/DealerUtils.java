@@ -4,6 +4,7 @@ import com.rg.dealer.Dealer;
 import com.sc.commons.exceptions.SCErrorException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,5 +19,9 @@ public class DealerUtils {
             return Dealer.getLexusHelper().getByObjectId(oidDealer);
 
         return Dealer.getToyotaHelper().getByObjectId(oidDealer);
+    }
+
+    public Dealer getByObjectIdOI(String oidNet, String oidDealer) throws SCErrorException {
+        return Dealer.getHelper().getByObjectId(oidNet, oidDealer);
     }
 }

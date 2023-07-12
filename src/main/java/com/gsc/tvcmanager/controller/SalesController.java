@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 public class SalesController {
@@ -27,9 +29,10 @@ public class SalesController {
     }
 
     @GetMapping(ApiEndpoints.EXPORT_YEAR_REPORT)
-    public ResponseEntity<UsedCarsPrevisionDTO> getYearReport(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<String> getYearReport(@AuthenticationPrincipal UserPrincipal userPrincipal, HttpServletResponse response,
                                                                           @RequestParam Integer year, @RequestParam Integer month, @RequestParam String oidDealer) {
-        UsedCarsPrevisionDTO usedCarsPrevisionSales = salesService.getYearReport(userPrincipal, oidDealer, year, month);
-        return ResponseEntity.status(HttpStatus.OK).body(usedCarsPrevisionSales);
+        salesService.getYearReport(userPrincipal, response, oidDealer, year, month);
+        return ResponseEntity.status(HttpStatus.OK).body("generated");
     }
+
 }

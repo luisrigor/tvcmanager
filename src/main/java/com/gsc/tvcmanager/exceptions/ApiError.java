@@ -14,12 +14,14 @@ public class ApiError {
     private HttpStatus status;
     private String message;
     private String details;
+    private String cause;
 
-    public ApiError(Long id, HttpStatus status, String message, String details) {
+    public ApiError(Long id, HttpStatus status, String message, String details, String cause) {
         this.id = id;
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.message = message;
         this.details = details;
+        this.cause = cause;
     }
 }
