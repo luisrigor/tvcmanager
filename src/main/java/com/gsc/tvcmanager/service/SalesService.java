@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface SalesService {
 
     UsedCarsPrevisionDTO getUsedCarsPrevisionSales(UserPrincipal userPrincipal, String oidDealer, Integer year, Integer month);
-    void getYearReport(UserPrincipal userPrincipal, HttpServletResponse response, String oidDealer, Integer year, Integer month);
+    void getReportByYearAndMonth(UserPrincipal userPrincipal, HttpServletResponse response, String oidDealer, Integer year, Integer month, boolean isOnlyYear);
 
 }

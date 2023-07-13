@@ -31,9 +31,9 @@ public class IndicatorsController {
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_INDICATORS_SALES)
     public ResponseEntity<IndicatorUsedFilesDTO> saveIndicatorsUsedSalesInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                                                            @RequestParam String oidDealer, @RequestParam Integer year,
+                                                                            @RequestParam String oidDealer, @RequestParam String year,
                                                                             @RequestParam String uploadDir ) {
-        IndicatorUsedFilesDTO indicatorsUsedFilesList = indicatorService.saveIndicatorsUsedSalesInfo(userPrincipal, oidDealer, year, uploadDir);
+        IndicatorUsedFilesDTO indicatorsUsedFilesList = indicatorService.saveIndicatorsUsedSalesInfo(userPrincipal, oidDealer, "","","","",year, uploadDir);
         return ResponseEntity.status(HttpStatus.OK).body(indicatorsUsedFilesList);
     }
 

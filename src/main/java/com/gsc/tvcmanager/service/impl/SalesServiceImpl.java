@@ -74,19 +74,25 @@ public class SalesServiceImpl implements SalesService {
                 .build();
     }
 
-    @Override
-    public void getYearReport(UserPrincipal userPrincipal, HttpServletResponse response, String oidDealer, Integer year, Integer month) {
 
+    @Override
+    public void getReportByYearAndMonth(UserPrincipal userPrincipal, HttpServletResponse response, String oidDealer,
+                                        Integer year, Integer month, boolean isOnlyYear) {
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         String filename = "Previsao_vendas_TUC_" + year +".xls";
+        if(!isOnlyYear)
+            filename = "Previsao_vendas_TUC_" + DateTimerTasks.ptMonths[month-1].substring(0,3) + "_" + year +".xls";
         String headerValue = "attachment; filename="+filename;
-
         response.setHeader(headerKey, headerValue);
 
-        try {
-            boolean isOnlyYear = false;
+        generateReport(userPrincipal, response, oidDealer, year, month, isOnlyYear);
+    }
 
+
+    public void generateReport(UserPrincipal userPrincipal, HttpServletResponse response, String oidDealer,
+                               Integer year, Integer month, boolean isOnlyYear) {
+        try {
             HSSFWorkbook workBook = new HSSFWorkbook();
             HSSFSheet monthSheet = null;
             if(!isOnlyYear)
@@ -153,8 +159,15 @@ public class SalesServiceImpl implements SalesService {
 
         vecDealers = dealerUtils.getActiveMainDealersForServices(oidNet);
 
-        hstPrevisionConc = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHtD(year, month, sheetType, PREVISION_TYPE_MENSAL);
-        hstPrevisionTcap = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHtD(year, month, sheetType, PREVISION_TYPE_ANUAL);
+        if("ANUAL".equals(sheetType)){
+            List<PrevisionHtDTO> hstPrevisionConcD = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHt(year, month, PREVISION_TYPE_MENSAL);
+            List<PrevisionHtDTO> hstPrevisionTcapD = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHt(year, month, PREVISION_TYPE_ANUAL);
+            hstPrevisionConc = this.dtoToTVCPrevision(hstPrevisionConcD);
+            hstPrevisionTcap = this.dtoToTVCPrevision(hstPrevisionTcapD);
+        }else {
+            hstPrevisionConc = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHtD(year, month, sheetType, PREVISION_TYPE_MENSAL);
+            hstPrevisionTcap = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHtD(year, month, sheetType, PREVISION_TYPE_ANUAL);
+        }
 
         List<TVCUsedCarsPrevisionSales>  oUsedCarsPrevisionSalesAux = null;
 
@@ -210,5 +223,18 @@ public class SalesServiceImpl implements SalesService {
             createCellFormula(row, ++column, "TVC", getTitleStyle(workBook, "PERCENT", oidNet));
             createCellFormula(row, ++column, "SN", getTitleStyle(workBook, "PERCENT", oidNet));
         }
+    }
+
+    private List<TVCUsedCarsPrevisionSales> dtoToTVCPrevision(List<PrevisionHtDTO> previsionDTO) {
+        List<TVCUsedCarsPrevisionSales> previsionSalesList = new ArrayList<>();
+
+        for (PrevisionHtDTO currentPrevision :previsionDTO) {
+            previsionSalesList.add(TVCUsedCarsPrevisionSales.builder()
+                            .oidDealer(currentPrevision.getOidDealer())
+                            .previsionTvc(currentPrevision.getPrevisionTvc()!=null ? currentPrevision.getPrevisionTvc().intValue(): null)
+                            .previsionSn(currentPrevision.getPrevisionSn()!=null ? currentPrevision.getPrevisionSn().intValue(): null)
+                    .build());
+        }
+        return previsionSalesList;
     }
 }

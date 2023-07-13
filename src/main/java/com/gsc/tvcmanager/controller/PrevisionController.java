@@ -1,5 +1,6 @@
 package com.gsc.tvcmanager.controller;
 
+import com.google.gson.Gson;
 import com.gsc.tvcmanager.constants.ApiEndpoints;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.security.UserPrincipal;
@@ -23,10 +24,12 @@ public class PrevisionController {
     private final PrevisionService previsionService;
 
     @GetMapping(ApiEndpoints.PREVISION_MONTH)
-    public ResponseEntity<UsedCarsPrevisionDTO> getUsedCarsAllPrevisionSalesMonth(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getUsedCarsAllPrevisionSalesMonth(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                                                  @RequestParam Integer year, @RequestParam Integer month) {
         log.info("Client id " + userPrincipal.getClientId());
-        UsedCarsPrevisionDTO previsionInfo= previsionService.getUsedCarsAllPrevisionSalesMonth(userPrincipal);
-        return ResponseEntity.status(HttpStatus.OK).body(previsionInfo);
+        Gson gson= new Gson();
+        UsedCarsPrevisionDTO previsionInfo= previsionService.getUsedCarsAllPrevisionSalesMonth(userPrincipal, year, month);
+        return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(previsionInfo));
     }
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES)

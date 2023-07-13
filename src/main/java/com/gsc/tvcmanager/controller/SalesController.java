@@ -30,8 +30,9 @@ public class SalesController {
 
     @GetMapping(ApiEndpoints.EXPORT_YEAR_REPORT)
     public ResponseEntity<String> getYearReport(@AuthenticationPrincipal UserPrincipal userPrincipal, HttpServletResponse response,
-                                                                          @RequestParam Integer year, @RequestParam Integer month, @RequestParam String oidDealer) {
-        salesService.getYearReport(userPrincipal, response, oidDealer, year, month);
+                                                @RequestParam Integer year, @RequestParam Integer month, @RequestParam String oidDealer,
+                                                @RequestParam boolean isOnlyYear) {
+        salesService.getReportByYearAndMonth(userPrincipal, response, oidDealer, year, month, isOnlyYear);
         return ResponseEntity.status(HttpStatus.OK).body("generated");
     }
 

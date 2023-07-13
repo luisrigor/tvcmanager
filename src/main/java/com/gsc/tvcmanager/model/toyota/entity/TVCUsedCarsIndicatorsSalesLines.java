@@ -1,35 +1,19 @@
 package com.gsc.tvcmanager.model.toyota.entity;
 
-import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "TVC_USED_CARS_INDICATORS_SALES")
-public class TVCUsedCarsIndicatorsSales {
+@Table(name = "TVC_USED_CARS_INDICATORS_SALES_LINES")
+public class TVCUsedCarsIndicatorsSalesLines {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "OID_DEALER")
-    private String oidDealer;
-    @Column(name = "YEAR")
-    private Integer year;
-    @Column(name = "MONTH")
-    private Integer month;
 
-    @Column(name = "TOT_USED_CARS")
-    private Integer totUsedCars;
 
-    @Column(name = "STATUS")
-    private String status = "Aberto";
     @Column(name = "CREATED_BY")
     private String createdBy;
 
