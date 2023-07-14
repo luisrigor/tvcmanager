@@ -29,14 +29,14 @@ public class PrevisionServiceImpl implements PrevisionService {
 
 
     @Override
-    public UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonth(UserPrincipal userPrincipal, Integer year, Integer month) {
+    public UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonthOrYear(UserPrincipal userPrincipal, Integer year, Integer month, boolean isMonth) {
         List<Dealer> vecDealers = null;
         try {
             if (userPrincipal.getRoles().contains(AppProfile.TVC_MANAGER_ROLE_ACTIVE_DEALERS)) {
                 vecDealers = dealerUtils.getActiveMainDealersForServices(userPrincipal.getOidNet());
             }
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = usedCarsPrevision(year, month, MONTHLY, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = usedCarsPrevision(year, month, MONTHLY, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
             return UsedCarsPrevisionDTO.builder()
                     .vecDealers(vecDealers)
                     .hstUsedCarsPrevisionSales(hstMonthPrevision)
