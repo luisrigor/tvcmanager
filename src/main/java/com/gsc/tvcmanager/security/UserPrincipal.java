@@ -30,7 +30,6 @@ public class UserPrincipal {
       this.roles = roles;
       this.clientId = clientId;
       this.oidNet = oidNet;
-      this.caMember = caMember;
       this.oidDealerParent = oidDealerParent;
       this.oidDealer = oidDealer;
    }
