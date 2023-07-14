@@ -52,4 +52,4 @@ app:
 
 secundary:
   dbs:
-    jndi: jdbc/usrlogon,jdbc/dbtoynet
+    jndi: jdbc/usrlogon,jdbc/dbtoynet, jdbc/lexxtaps

@@ -67,7 +67,7 @@ public class ReportUtils {
 
         int column = 1;
         sheet.setDefaultRowHeight((short) (250));
-  
+
         //Linha titulo 1
         row = sheet.createRow(currentRow);
         int columnTo = column+1;

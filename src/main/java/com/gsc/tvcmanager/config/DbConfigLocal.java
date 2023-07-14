@@ -3,6 +3,7 @@ package com.gsc.tvcmanager.config;
 import com.ibm.db2.jcc.DB2SimpleDataSource;
 import com.sc.commons.dbconnection.ServerJDBCConnection;
 import com.sc.commons.initialization.SCGlobalPreferences;
+import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ import java.util.Map;
         transactionManagerRef = "msTransactionManager",
         basePackages = {"com.gsc.tvcmanager.repository.toyota"}
 )
+@Log4j
 public class DbConfigLocal {
 
-    private static final Logger log = LoggerFactory.getLogger(DbConfigLocal.class);
 
     @Autowired
     private  Environment env;

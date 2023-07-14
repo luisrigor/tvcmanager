@@ -2,6 +2,7 @@ package com.gsc.tvcmanager.config;
 
 import com.sc.commons.dbconnection.ServerJDBCConnection;
 import com.sc.commons.initialization.SCGlobalPreferences;
+import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,9 +34,9 @@ import java.util.Map;
         transactionManagerRef = "msTransactionManager",
         basePackages = {"com.gsc.tvcmanager.repository.toyota"}
 )
+@Log4j
 public class DbConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(DbConfig.class);
 
     @Value("${secundary.dbs.jndi}")
     private List<String> jndis;
@@ -57,9 +58,9 @@ public class DbConfig {
                 InitialContext ctx = new InitialContext();
                 ServerJDBCConnection conn = ServerJDBCConnection.getInstance();
                 conn.setDataSource((DataSource) ctx.lookup(jndiName), jndiName);
-                log.info("Datasource initialized successfully: {}", jndiName);
+                log.info("Datasource initialized successfully: {} " + jndiName);
             } catch (NamingException e) {
-                log.error("Error initializing datasource ({}): {}", jndiName, e.getMessage());
+                log.error("Error initializing datasource ({}): {}" + jndiName, e);
             }
         });
     }
@@ -74,7 +75,7 @@ public class DbConfig {
     LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("msDatasource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.gsc.tvcmanager.model.entity")
+                .packages("com.gsc.tvcmanager.model.toyota.entity")
                 .persistenceUnit("msPersistenceUnit")
                 .properties(getHibernateProperties())
                 .build();

@@ -240,7 +240,7 @@ public class SalesServiceImpl implements SalesService {
             createCellFormula(row, ++column, "SN", getDetailStyle(workBook, HorizontalAlignment.CENTER, "PERCENT"));
         }
 
-        if(currentRow>initialRow){
+        if(currentRow>initialRow) {
             HSSFCellStyle styleTitle = getTitleStyle(workBook, "TEXT", oidNet);
             currentRow++;
             column=1;
