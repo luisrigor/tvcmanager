@@ -43,6 +43,7 @@ public class TokenProvider {
    private static final String JWT_ENVIRONMENT = "environment";
    private static final String JWT_CLIENT_ID = "client";
    private static final String OID_DEALER_PARENT = "dealer_parent";
+   private static final String OID_DEALER = "dealer";
    private static final String OID_NET = "oid_net";
 
    private final ConfigurationRepository configurationRepository;
@@ -88,6 +89,7 @@ public class TokenProvider {
          .claim(JWT_CLIENT_ID, userPrincipal.getClientId())
          .claim(ROLES, userPrincipal.getRoles())
          .claim(OID_DEALER_PARENT, userPrincipal.getOidDealerParent())
+         .claim(OID_DEALER, userPrincipal.getOidDealer())
          .claim(OID_NET, userPrincipal.getOidNet())
          .compact();
    }
@@ -146,7 +148,8 @@ public class TokenProvider {
                roles,
                claims.get(JWT_CLIENT_ID, Long.class),
                claims.get(OID_NET, String.class),
-               claims.get(OID_DEALER_PARENT, String.class)
+               claims.get(OID_DEALER_PARENT, String.class),
+               claims.get(OID_DEALER, String.class)
             ),
             Collections.emptyList()
          );

@@ -21,4 +21,8 @@ public class UsedCarsIndicatorDTO {
     private TVCUsedCarsIndicatorsSales usedCarsIndicatorsSales;
 
     private List<Dealer> dealers;
+
+    private boolean isCA;
+
+    private boolean filterBeanisValidOpenMonth;
 }

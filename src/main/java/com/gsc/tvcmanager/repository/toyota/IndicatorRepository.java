@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface IndicatorRepository extends JpaRepository<TVCUsedCarsIndicatorsSales, Integer> {
+public interface IndicatorRepository extends JpaRepository<TVCUsedCarsIndicatorsSales, Integer>, TVCUsedCarsIndicatorsSalesCustom {
 
-    @Query(value = "SELECT * FROM PVM_MONTHLYREPORT WHERE 1=1 AND YEAR = :year AND MONTH = :month AND OID_DEALER = :oidDealer AND SUB_DEALER = :subDealer", nativeQuery = true)
-    Optional<TVCUsedCarsIndicatorsSales> getUsedCarsIndicatorsSales(@Param("year") int year);
+    @Query(value = "SELECT * FROM PVM_MONTHLYREPORT WHERE 1=1 AND YEAR = :year AND MONTH = :month AND OID_DEALER = :oidDealer ORDER BY id DESC ", nativeQuery = true)
+    Optional<TVCUsedCarsIndicatorsSales> getUsedCarsIndicatorsSales(@Param("year") int year, @Param("month") int month, @Param("oidDealer") String oidDealer);
 
 }

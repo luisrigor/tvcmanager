@@ -4,6 +4,7 @@ import com.gsc.tvcmanager.constants.AppProfile;
 import com.gsc.tvcmanager.dto.PrevisionHtDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.exceptions.SalesException;
+import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsPrevisionSales;
 import com.gsc.tvcmanager.repository.toyota.TVCUsedCarsPrevisionSalesRepository;
 import com.gsc.tvcmanager.security.UserPrincipal;
@@ -13,6 +14,8 @@ import com.gsc.tvcmanager.utils.ReportUtils;
 import com.rg.dealer.Dealer;
 import com.sc.commons.exceptions.SCErrorException;
 import com.sc.commons.utils.DateTimerTasks;
+import com.sc.commons.utils.PortletTasks;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -21,6 +24,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -87,6 +91,31 @@ public class SalesServiceImpl implements SalesService {
         response.setHeader(headerKey, headerValue);
 
         generateReport(userPrincipal, response, oidDealer, year, month, isOnlyYear);
+    }
+
+    @Override
+    @Transactional
+    public void openMonthPrevision(UserPrincipal userPrincipal, List<Integer> arrDealersToClose) {
+        try {
+            for (Integer currentDealersToClose: arrDealersToClose){
+                tvcUsedCarsPrevisionSalesRepository.changeUsedCarsPrevisionSalesStatus(currentDealersToClose, STATUS_OPEN);
+            }
+        } catch (Exception e) {
+            throw new SalesException("Erro Abrir més previsão de vendas usados", e);
+        }
+    }
+
+    @Override
+    public PrevisionFilterBean setFilter(UserPrincipal userPrincipal) {
+        return PrevisionFilterBean.builder()
+                .oidNet(userPrincipal.getOidNet())
+                .year(DateTimerTasks.getCurYear())
+                .month(DateTimerTasks.getCurMonth())
+                .actualYear(DateTimerTasks.getCurYear())
+                .actualMonth(DateTimerTasks.getCurMonth())
+                .oidDealer(userPrincipal.getOidDealer())
+                .build();
+
     }
 
 

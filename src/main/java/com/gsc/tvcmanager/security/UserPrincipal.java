@@ -25,13 +25,14 @@ public class UserPrincipal {
       this.clientId = clientId;
    }
 
-   public UserPrincipal(String username, Set<AppProfile> roles, Long clientId, String oidNet, String oidDealerParent) {
+   public UserPrincipal(String username, Set<AppProfile> roles, Long clientId, String oidNet, String oidDealerParent, String oidDealer) {
       this.username = username;
       this.roles = roles;
       this.clientId = clientId;
       this.oidNet = oidNet;
       this.caMember = caMember;
       this.oidDealerParent = oidDealerParent;
+      this.oidDealer = oidDealer;
    }
 
 
