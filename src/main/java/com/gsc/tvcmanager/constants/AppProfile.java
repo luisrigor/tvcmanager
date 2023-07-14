@@ -23,14 +23,6 @@ public enum AppProfile {
     TVC_MANAGER_ROLE_OPEN_BUTTON(-1, -2),
     TVC_MANAGER_ROLE_NEW_RECORD(-1, -2),
     TVC_MANAGER_ROLE_SAVE_BUTTONS(-1, -2);
-    /**
-     * Can cleanup projects.
-     */
-//    CLEANUP_PROJECTS(-1),
-    /**
-     * Can download project files.
-     */
-//    DOWNLOAD_PROJECT_FILES(-1);
 
     private final Integer idToyota;
     private final Integer idLexus;

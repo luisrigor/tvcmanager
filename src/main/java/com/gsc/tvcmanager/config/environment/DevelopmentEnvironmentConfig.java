@@ -28,8 +28,4 @@ public class DevelopmentEnvironmentConfig implements EnvironmentConfig {
       return new A2pApiInvoke(com.gsc.a2p.util.DATA.A2P_SERVER_STAGING);
    }
 
-   @Override
-   public Map<String, String> getEnvVariables() {
-      return MapProfileVariables.getEnvVariablesDevelopment();
-   }
 }
