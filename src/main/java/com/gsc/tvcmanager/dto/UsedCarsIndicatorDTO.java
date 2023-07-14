@@ -17,12 +17,7 @@ public class UsedCarsIndicatorDTO {
     private boolean existInBD;
     private boolean isCa;
     private boolean notHasEuroLinea;
-
     private TVCUsedCarsIndicatorsSales usedCarsIndicatorsSales;
-
     private List<Dealer> dealers;
-
-    private boolean isCA;
-
     private boolean filterBeanisValidOpenMonth;
 }
