@@ -9,14 +9,20 @@ import com.gsc.tvcmanager.dto.UsedCarsIndicatorDTO;
 import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.IndicatorService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
 @RequiredArgsConstructor
+@Log4j
+@RequestMapping("${app.baseUrl}")
+@Api(value = "", tags = "INDICATOR")
+@RestController
+@CrossOrigin("*")
 public class IndicatorsController {
 
     private final IndicatorService indicatorService;

@@ -1,6 +1,5 @@
 package com.gsc.tvcmanager.service.impl;
 
-import com.gsc.tvcmanager.config.ApplicationConfiguration;
 import com.gsc.tvcmanager.constants.AppProfile;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsPrevisionSales;
@@ -30,14 +29,14 @@ public class PrevisionServiceImpl implements PrevisionService {
 
 
     @Override
-    public UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonth(UserPrincipal userPrincipal, Integer year, Integer month) {
+    public UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonthOrYear(UserPrincipal userPrincipal, Integer year, Integer month, boolean isMonth) {
         List<Dealer> vecDealers = null;
         try {
             if (userPrincipal.getRoles().contains(AppProfile.TVC_MANAGER_ROLE_ACTIVE_DEALERS)) {
                 vecDealers = dealerUtils.getActiveMainDealersForServices(userPrincipal.getOidNet());
             }
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = usedCarsPrevision(year, month, MONTHLY, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = usedCarsPrevision(year, month, MONTHLY, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
             return UsedCarsPrevisionDTO.builder()
                     .vecDealers(vecDealers)
                     .hstUsedCarsPrevisionSales(hstMonthPrevision)
@@ -50,32 +49,32 @@ public class PrevisionServiceImpl implements PrevisionService {
     }
 
     @Override
-    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id) {
-//        int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
-//        TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
-//        try {
-//            int previsionTvc = StringTasks.cleanInteger("previsionTVC"+filterBean.getActualMonth(), 0);
-//            int previsionSn = StringTasks.cleanInteger("previsionSN"+filterBean.getActualMonth(), 0);
-//            String status = StringTasks.cleanString(STATUS, "Aberto");
-//            if(idt==0){
-//                oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
-//                        .builder()
-//                        .oidDealer(filterBean.getOidDealer())
-//                        .month(filterBean.getActualMonth())
-//                        .year(filterBean.getActualYear())
-//                        .previsionType(TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL)
-//                        .build();
-//            }else{
-//                oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
-//                oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
-//            }
-//            oUsedCarsPrevisionSales.setStatus(status);
-//            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
-//            oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
-//            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
-//        } catch (Exception e) {
-//            log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
-//        }
+    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer actualMonth,Integer actualYear) {
+        int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
+        TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
+        try {
+            int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
+           int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
+           String status = StringTasks.cleanString(STATUS, "Aberto");
+            if(idt==0){
+                oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
+                        .builder()
+                       .oidDealer(oidDealer)
+                       .month(actualMonth)
+                       .year(actualYear)
+                        .previsionType(TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL)
+                        .build();
+            }else{
+                oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
+                oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
+            }
+            oUsedCarsPrevisionSales.setStatus(status);
+            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
+            oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
+            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
+        } catch (Exception e) {
+            log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
+        }
     }
 
     private List<TVCUsedCarsPrevisionSales> usedCarsPrevision(Integer year, Integer month, String reportType, String previsionType){

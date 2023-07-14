@@ -6,6 +6,6 @@ import com.gsc.tvcmanager.security.UserPrincipal;
 
 public interface PrevisionService{
 
-    UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonth(UserPrincipal userPrincipal, Integer year, Integer month);
-    void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal,int id);
+    UsedCarsPrevisionDTO getUsedCarsAllPrevisionSalesMonthOrYear(UserPrincipal userPrincipal, Integer year, Integer month,boolean isMonth);
+    void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal,int id,String oidDealer,Integer actualMonth,Integer actualYear);
 }
