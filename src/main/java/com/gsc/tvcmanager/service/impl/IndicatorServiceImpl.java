@@ -8,7 +8,6 @@ import com.gsc.tvcmanager.exceptions.IndicatorClientException;
 import com.gsc.tvcmanager.exceptions.IndicatorsException;
 import com.gsc.tvcmanager.dto.UsedCarsIndicatorDTO;
 import com.gsc.tvcmanager.exceptions.SalesException;
-//import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsIndicatorsSales;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsIndicatorsSalesLines;
@@ -19,26 +18,16 @@ import com.gsc.tvcmanager.utils.DealerUtils;
 import com.rg.dealer.Dealer;
 import com.sc.commons.utils.DateTimerTasks;
 import com.sc.commons.utils.FileTasks;
-import com.sc.commons.utils.PortletTasks;
 import com.sc.commons.utils.StringTasks;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import com.rg.objects.DealerCode;
-import com.sc.commons.utils.DateTimerTasks;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +39,6 @@ public class IndicatorServiceImpl implements IndicatorService {
     public static final String STATUS_CLOSED	= "Fechado";
     public static final String STATUS_REOPEN	= "Reaberto";
     public static final String STATUS = "status";
-
-//    private final PrevisionFilterBean filterBean;
     private final IndicatorRepository indicatorRepository;
 
     @Override
