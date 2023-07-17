@@ -49,13 +49,13 @@ public class PrevisionServiceImpl implements PrevisionService {
     }
 
     @Override
-    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer actualMonth,Integer actualYear) {
+    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer actualMonth,Integer actualYear,String status) {
         int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
         TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
         try {
             int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
            int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
-           String status = StringTasks.cleanString(STATUS, "Aberto");
+           String statuss = StringTasks.cleanString(status, "Aberto");
             if(idt==0){
                 oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
                         .builder()
@@ -68,7 +68,7 @@ public class PrevisionServiceImpl implements PrevisionService {
                 oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
                 oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
             }
-            oUsedCarsPrevisionSales.setStatus(status);
+            oUsedCarsPrevisionSales.setStatus(statuss);
             oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
             oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
             previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
