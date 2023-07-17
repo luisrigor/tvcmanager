@@ -56,6 +56,7 @@ public class PrevisionServiceImpl implements PrevisionService {
             int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
            int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
            String statusCar = StringTasks.cleanString(status, "Aberto");
+            String userStamp = userPrincipal.getUsername().split("\\|\\|")[0]+"||"+userPrincipal.getUsername().split("\\|\\|")[1];
             if(idt==0){
                 oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
                         .builder()
@@ -66,12 +67,12 @@ public class PrevisionServiceImpl implements PrevisionService {
                         .build();
             }else{
                 oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
-                oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
+                oUsedCarsPrevisionSales.setChangedBy(userStamp);
             }
             oUsedCarsPrevisionSales.setStatus(statusCar);
             oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
             oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
-            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
+            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,userStamp);
         } catch (Exception e) {
             log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
         }
