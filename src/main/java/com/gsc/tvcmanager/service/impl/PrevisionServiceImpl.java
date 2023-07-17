@@ -55,7 +55,7 @@ public class PrevisionServiceImpl implements PrevisionService {
         try {
             int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
            int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
-           String statuss = StringTasks.cleanString(status, "Aberto");
+           String statusCar = StringTasks.cleanString(status, "Aberto");
             if(idt==0){
                 oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
                         .builder()
@@ -68,7 +68,7 @@ public class PrevisionServiceImpl implements PrevisionService {
                 oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
                 oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
             }
-            oUsedCarsPrevisionSales.setStatus(statuss);
+            oUsedCarsPrevisionSales.setStatus(statusCar);
             oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
             oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
             previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
