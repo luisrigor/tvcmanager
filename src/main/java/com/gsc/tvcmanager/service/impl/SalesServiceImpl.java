@@ -14,8 +14,6 @@ import com.gsc.tvcmanager.utils.ReportUtils;
 import com.rg.dealer.Dealer;
 import com.sc.commons.exceptions.SCErrorException;
 import com.sc.commons.utils.DateTimerTasks;
-import com.sc.commons.utils.PortletTasks;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -50,8 +48,6 @@ public class SalesServiceImpl implements SalesService {
 
     @Override
     public UsedCarsPrevisionDTO getUsedCarsPrevisionSales(UserPrincipal userPrincipal, String oidDealer, Integer year, Integer month) {
-
-
 
         List<Dealer> vecDealers = new ArrayList<>();
         List<TVCUsedCarsPrevisionSales> hstUsedCarsPrevisionSales = new ArrayList<>();
@@ -145,7 +141,6 @@ public class SalesServiceImpl implements SalesService {
         }catch (Exception e) {
             throw new SalesException("Error generating report", e);
         }
-
     }
 
     private void verifyHtMonths(List<TVCUsedCarsPrevisionSales> hstUsedCarsPrevisionSales, Integer year, String oidDealer) {
