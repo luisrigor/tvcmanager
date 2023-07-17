@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface IndicatorRepository extends JpaRepository<TVCUsedCarsIndicatorsSales, Integer>, TVCUsedCarsIndicatorsSalesCustom {
 
-    @Query(value = "SELECT * FROM PVM_MONTHLYREPORT WHERE 1=1 AND YEAR = :year AND MONTH = :month AND OID_DEALER = :oidDealer ORDER BY id DESC ", nativeQuery = true)
+    @Query(value = "SELECT TVCUC FROM TVCUsedCarsIndicatorsSales TVCUC WHERE TVCUC.year = :year AND TVCUC.month = :month AND TVCUC.oidDealer = :oidDealer ORDER BY id DESC")
     Optional<TVCUsedCarsIndicatorsSales> getUsedCarsIndicatorsSales(@Param("year") int year, @Param("month") int month, @Param("oidDealer") String oidDealer);
 
 }
