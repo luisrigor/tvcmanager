@@ -249,7 +249,7 @@ public class SalesServiceImpl implements SalesService {
         }
     }
 
-    private List<TVCUsedCarsPrevisionSales> dtoToTVCPrevision(List<PrevisionHtDTO> previsionDTO) {
+    public static List<TVCUsedCarsPrevisionSales> dtoToTVCPrevision(List<PrevisionHtDTO> previsionDTO) {
         List<TVCUsedCarsPrevisionSales> previsionSalesList = new ArrayList<>();
 
         for (PrevisionHtDTO currentPrevision :previsionDTO) {
