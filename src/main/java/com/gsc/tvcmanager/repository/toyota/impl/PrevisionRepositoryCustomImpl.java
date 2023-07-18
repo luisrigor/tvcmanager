@@ -21,10 +21,10 @@ public class PrevisionRepositoryCustomImpl implements PrevisionRepositoryCustom 
                         + "USING (VALUES ("+usedCarsPrevisionSales.getId()+")) AS AUX (ID) "
                         + "ON PUCS.ID = AUX.ID"
                         + "WHEN MATCHED THEN"
-                        + "UPDATE SET STATUS=?, PREVISION_TVC=?, PREVISION_SN=?, CHANGED_BY=?, DT_CHANGED=? "
+                        + "UPDATE SET STATUS=?1, PREVISION_TVC=?2, PREVISION_SN=?3, CHANGED_BY=?4, DT_CHANGED=?5 "
                         + "WHEN NOT MATCHED THEN"
                         + "INSERT (OID_DEALER,YEAR,MONTH,PREVISION_TYPE,STATUS,PREVISION_TVC,PREVISION_SN,CREATED_BY,DT_CREATED)"
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )")
+                        + "VALUES (?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14 )")
                        .setParameter(1, usedCarsPrevisionSales.getStatus())
                         .setParameter(2, usedCarsPrevisionSales.getPrevisionTvc())
                         .setParameter(3, usedCarsPrevisionSales.getPrevisionSn())
@@ -38,6 +38,7 @@ public class PrevisionRepositoryCustomImpl implements PrevisionRepositoryCustom 
                         .setParameter(11, usedCarsPrevisionSales.getPrevisionTvc())
                         .setParameter(12, usedCarsPrevisionSales.getPrevisionSn())
                         .setParameter(13, createdBy)
+                        .setParameter(14, ts)
                         .executeUpdate();
     }
 }

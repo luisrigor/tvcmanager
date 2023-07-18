@@ -64,13 +64,14 @@ public class PrevisionServiceImpl implements PrevisionService {
     }
 
     @Override
-    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer actualMonth,Integer actualYear) {
+    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer previsionTvc,Integer previsionSn,Integer actualMonth,Integer actualYear,String status) {
         int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
         TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
         try {
-            int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
-           int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
-           String status = StringTasks.cleanString(STATUS, "Aberto");
+            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(previsionTvc+actualMonth), 0);
+           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(previsionSn+actualMonth), 0);
+           String statusCar = StringTasks.cleanString(status, "Aberto");
+            String userStamp = userPrincipal.getUsername().split("\\|\\|")[0]+"||"+userPrincipal.getUsername().split("\\|\\|")[1];
             if(idt==0){
                 oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
                         .builder()
@@ -81,12 +82,12 @@ public class PrevisionServiceImpl implements PrevisionService {
                         .build();
             }else{
                 oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
-                oUsedCarsPrevisionSales.setChangedBy(userPrincipal.getOidNet());
+                oUsedCarsPrevisionSales.setChangedBy(userStamp);
             }
-            oUsedCarsPrevisionSales.setStatus(status);
-            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
-            oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
-            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,"11/07/2023");
+            oUsedCarsPrevisionSales.setStatus(statusCar);
+            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvcCar);
+            oUsedCarsPrevisionSales.setPrevisionSn(previsionSnCar);
+            previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,userStamp);
         } catch (Exception e) {
             log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
         }
