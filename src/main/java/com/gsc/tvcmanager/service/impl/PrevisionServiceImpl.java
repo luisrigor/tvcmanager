@@ -1,9 +1,11 @@
 package com.gsc.tvcmanager.service.impl;
 
 import com.gsc.tvcmanager.constants.AppProfile;
+import com.gsc.tvcmanager.dto.PrevisionHtDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsPrevisionSales;
 import com.gsc.tvcmanager.repository.toyota.PrevisionRepository;
+import com.gsc.tvcmanager.repository.toyota.TVCUsedCarsPrevisionSalesRepository;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.PrevisionService;
 import com.gsc.tvcmanager.utils.DealerUtils;
@@ -26,6 +28,8 @@ public class PrevisionServiceImpl implements PrevisionService {
     private final DealerUtils dealerUtils;
 
     private final PrevisionRepository previsionRepository;
+    private final TVCUsedCarsPrevisionSalesRepository tvcUsedCarsPrevisionSalesRepository;
+
 
 
     @Override
@@ -35,8 +39,19 @@ public class PrevisionServiceImpl implements PrevisionService {
             if (userPrincipal.getRoles().contains(AppProfile.TVC_MANAGER_ROLE_ACTIVE_DEALERS)) {
                 vecDealers = dealerUtils.getActiveMainDealersForServices(userPrincipal.getOidNet());
             }
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
-            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevision = new ArrayList<>();
+            List<TVCUsedCarsPrevisionSales> hstMonthPrevisionTcap = new ArrayList<>();
+
+            if(!isMonth) {
+                List<PrevisionHtDTO> hstPrevisionConcD = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHt(year, month, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
+                List<PrevisionHtDTO> hstPrevisionTcapD = tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHt(year, month, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
+                hstMonthPrevision = SalesServiceImpl.dtoToTVCPrevision(hstPrevisionConcD);
+                hstMonthPrevisionTcap = SalesServiceImpl.dtoToTVCPrevision(hstPrevisionTcapD);
+            } else {
+                hstMonthPrevision = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL);
+                hstMonthPrevisionTcap = usedCarsPrevision(year, month, isMonth ? MONTHLY : ANNUAL, TVCUsedCarsPrevisionSales.PREVISION_TYPE_ANUAL);
+            }
+
             return UsedCarsPrevisionDTO.builder()
                     .vecDealers(vecDealers)
                     .hstUsedCarsPrevisionSales(hstMonthPrevision)
