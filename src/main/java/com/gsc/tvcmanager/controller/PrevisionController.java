@@ -33,8 +33,8 @@ public class PrevisionController {
     }
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES)
-    public void saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,int id,String oidDealer,Integer actualMonth,Integer actualYear,String status) {
+    public void saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,int id,String oidDealer,Integer previsionTvc,Integer previsionSn,Integer actualMonth,Integer actualYear,String status) {
         log.info("Client id " + userPrincipal.getClientId());
-        previsionService.saveUsedCarsPrevisionSales(userPrincipal,id,oidDealer,actualMonth,actualYear,status);
+        previsionService.saveUsedCarsPrevisionSales(userPrincipal,id,oidDealer,previsionTvc,previsionSn,actualMonth,actualYear,status);
     }
 }

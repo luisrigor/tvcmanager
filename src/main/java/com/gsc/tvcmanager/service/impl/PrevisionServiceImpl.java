@@ -49,12 +49,12 @@ public class PrevisionServiceImpl implements PrevisionService {
     }
 
     @Override
-    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer actualMonth,Integer actualYear,String status) {
+    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer previsionTvc,Integer previsionSn,Integer actualMonth,Integer actualYear,String status) {
         int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
         TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
         try {
-            int previsionTvc = StringTasks.cleanInteger("previsionTVC"+actualMonth, 0);
-           int previsionSn = StringTasks.cleanInteger("previsionSN"+actualMonth, 0);
+            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(previsionTvc+actualMonth), 0);
+           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(previsionSn+actualMonth), 0);
            String statusCar = StringTasks.cleanString(status, "Aberto");
             String userStamp = userPrincipal.getUsername().split("\\|\\|")[0]+"||"+userPrincipal.getUsername().split("\\|\\|")[1];
             if(idt==0){
@@ -70,8 +70,8 @@ public class PrevisionServiceImpl implements PrevisionService {
                 oUsedCarsPrevisionSales.setChangedBy(userStamp);
             }
             oUsedCarsPrevisionSales.setStatus(statusCar);
-            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvc);
-            oUsedCarsPrevisionSales.setPrevisionSn(previsionSn);
+            oUsedCarsPrevisionSales.setPrevisionTvc(previsionTvcCar);
+            oUsedCarsPrevisionSales.setPrevisionSn(previsionSnCar);
             previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,userStamp);
         } catch (Exception e) {
             log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
