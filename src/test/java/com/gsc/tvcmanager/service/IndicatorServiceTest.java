@@ -62,7 +62,7 @@ public class IndicatorServiceTest {
         when(dealerUtils.getActiveMainDealersForServices(anyString())).thenReturn(TVCData.getDealers());
         when(dealerUtils.getByObjectId(anyString(), anyString())).thenReturn(TVCData.getDealers().get(0));
 
-        IndicatorUsedFilesDTO filesList = indicatorService.getIndicatorsUsedFilesList(userPrincipal, "1", 1, "/home");
+        IndicatorUsedFilesDTO filesList = indicatorService.getIndicatorsUsedFilesList(userPrincipal, "1", 1, "./");
 
 
         assertEquals("s",filesList.getVecDealers().get(0).getSalesCode());
