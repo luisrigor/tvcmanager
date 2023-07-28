@@ -34,7 +34,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles(SecurityData.ACTIVE_PROFILE)
 
@@ -158,7 +158,7 @@ class SalesServiceTest {
 
 
 
-        salesService.generateReport(userPrincipal, response, "1", 1,1, true);
+        salesService.getReportByYearAndMonth(userPrincipal, response, "1", 1,1, true);
 
         InputStream targetStream = new ByteArrayInputStream(((MockHttpServletResponse) response).getContentAsByteArray());
         HSSFWorkbook workbook = new HSSFWorkbook(targetStream);
@@ -176,5 +176,95 @@ class SalesServiceTest {
         assertEquals("20.0", spreadsheet.getRow(3).getCell(2).toString());
         assertEquals("20.0", spreadsheet.getRow(3).getCell(3).toString());
         assertEquals("10.0", spreadsheet.getRow(3).getCell(4).toString());
+    }
+
+    @Test
+    void whenGetReportByMonthThenReturnInfo() throws IOException, SCErrorException {
+
+        UserPrincipal userPrincipal = securityData.getUserPrincipal();
+        userPrincipal.setOidNet("SC00010001");
+        userPrincipal.setOidDealerParent("1");
+        userPrincipal.setOidDealer("1");
+
+        HttpServletResponse response = new MockHttpServletResponse();
+
+        when(tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHtD(anyInt(), any(), anyString(),anyString()))
+                .thenReturn(TVCData.getAllPrevisionSalesHT());
+
+        when(dealerUtils.getActiveMainDealersForServices(anyString()))
+                .thenReturn(TVCData.getDealers());
+
+
+
+        salesService.getReportByYearAndMonth(userPrincipal, response, "1", 1,1, false);
+
+        InputStream targetStream = new ByteArrayInputStream(((MockHttpServletResponse) response).getContentAsByteArray());
+        HSSFWorkbook workbook = new HSSFWorkbook(targetStream);
+        HSSFSheet spreadsheet = workbook.getSheetAt(0);
+        HSSFRow row;
+        row = spreadsheet.getRow(1);
+        row.getCell(1);
+
+
+        assertEquals("OBJECTIVO TUC", spreadsheet.getRow(2).getCell(2).toString());
+        assertEquals("TUC", spreadsheet.getRow(2).getCell(3).toString());
+        assertEquals("COMPRAS TCAP", spreadsheet.getRow(2).getCell(4).toString());
+        assertEquals("TUC/OBJETIVO", spreadsheet.getRow(2).getCell(5).toString());
+
+        assertEquals("", spreadsheet.getRow(3).getCell(2).toString());
+        assertEquals("", spreadsheet.getRow(3).getCell(3).toString());
+        assertEquals("", spreadsheet.getRow(3).getCell(4).toString());
+    }
+
+    @Test
+    void whenGetReportByMonthThenThrows() {
+        UserPrincipal userPrincipal = securityData.getUserPrincipal();
+        userPrincipal.setOidNet("SC00010001");
+        userPrincipal.setOidDealerParent("1");
+        userPrincipal.setOidDealer("1");
+
+        HttpServletResponse response = new MockHttpServletResponse();
+
+        when(tvcUsedCarsPrevisionSalesRepository.getAllPrevisionHt(anyInt(), any(), anyString()))
+                .thenThrow(RuntimeException.class);
+
+
+        assertThrows(SalesException.class ,()->salesService.getReportByYearAndMonth(userPrincipal, response, "1", 1,1, true));
+
+    }
+    @Test
+    void whenOpenMonthPrevisionThenUpdate() {
+        UserPrincipal userPrincipal = securityData.getUserPrincipal();
+        userPrincipal.setOidNet("SC00010001");
+        userPrincipal.setOidDealerParent("1");
+        userPrincipal.setOidDealer("1");
+
+        List<Integer> dealersToClose = new ArrayList<>();
+        dealersToClose.add(1);
+        dealersToClose.add(2);
+        dealersToClose.add(3);
+
+        doNothing().when(tvcUsedCarsPrevisionSalesRepository).changeUsedCarsPrevisionSalesStatus(anyInt(), anyString());
+
+        salesService.openMonthPrevision(userPrincipal, dealersToClose);
+
+        verify(tvcUsedCarsPrevisionSalesRepository, times(3)).changeUsedCarsPrevisionSalesStatus(anyInt(), anyString());
+    }
+
+    @Test
+    void whenOpenMonthPrevisionThenThrows() {
+        UserPrincipal userPrincipal = securityData.getUserPrincipal();
+        userPrincipal.setOidNet("SC00010001");
+        userPrincipal.setOidDealerParent("1");
+        userPrincipal.setOidDealer("1");
+
+        List<Integer> dealersToClose = new ArrayList<>();
+        dealersToClose.add(1);
+        dealersToClose.add(2);
+        dealersToClose.add(3);
+
+        doThrow(new RuntimeException("Error update")).when(tvcUsedCarsPrevisionSalesRepository).changeUsedCarsPrevisionSalesStatus(anyInt(), anyString());
+
+        assertThrows(SalesException.class, ()-> salesService.openMonthPrevision(userPrincipal, dealersToClose));
     }
 }

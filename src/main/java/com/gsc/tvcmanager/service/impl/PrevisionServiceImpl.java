@@ -3,6 +3,7 @@ package com.gsc.tvcmanager.service.impl;
 import com.gsc.tvcmanager.constants.AppProfile;
 import com.gsc.tvcmanager.dto.PrevisionHtDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
+import com.gsc.tvcmanager.exceptions.SalesException;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsPrevisionSales;
 import com.gsc.tvcmanager.repository.toyota.PrevisionRepository;
 import com.gsc.tvcmanager.repository.toyota.TVCUsedCarsPrevisionSalesRepository;
@@ -90,6 +91,7 @@ public class PrevisionServiceImpl implements PrevisionService {
             previsionRepository.mergeUsedCarsPrevisionSales(oUsedCarsPrevisionSales,userStamp);
         } catch (Exception e) {
             log.error("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados");
+            throw new SalesException("Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados", e);
         }
     }
 

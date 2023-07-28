@@ -16,6 +16,7 @@ import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.IndicatorService;
 import com.gsc.tvcmanager.utils.DealerUtils;
 import com.rg.dealer.Dealer;
+import com.sc.commons.exceptions.SCErrorException;
 import com.sc.commons.utils.DateTimerTasks;
 import com.sc.commons.utils.FileTasks;
 import com.sc.commons.utils.StringTasks;
@@ -141,16 +142,11 @@ public class IndicatorServiceImpl implements IndicatorService {
         try {
             TVCUsedCarsIndicatorsSales oUsedCarsIndicatorsSales;
             boolean notHasEuroLinea = false;
-            List<Dealer> vecDealers = null;
-            if (userPrincipal.getRoles().contains(AppProfile.TVC_MANAGER_ROLE_ACTIVE_DEALERS)) {
-                vecDealers = dealerUtils.getActiveMainDealersForServices(userPrincipal.getOidNet());
-            } else {
-                vecDealers.add(dealerUtils.getByObjectId(userPrincipal.getOidNet(), oidDealer));
-            }
+
             Dealer oDealer;
             oDealer = dealerUtils.getByObjectId(userPrincipal.getOidNet(), oidDealer);
             if (oDealer != null) {
-                List<DealerCode> vecCodes = oDealer.getCodes(Dealer.OID_NET_TOYOTA.equals(userPrincipal.getOidNet()) ? Dealer.OID_TOYOTA_CODE_DEKRA : Dealer.OID_LEXUS_CODE_DEKRA);
+                List<DealerCode> vecCodes = dealerUtils.getDealerCodes(userPrincipal.getOidNet(), oDealer);
                 if (vecCodes == null || vecCodes.isEmpty())
                     notHasEuroLinea = true;
             }
@@ -175,7 +171,7 @@ public class IndicatorServiceImpl implements IndicatorService {
                     .existInBD(oUsedCarsIndicatorsSales != null ? true : false)
                     .notHasEuroLinea(notHasEuroLinea)
                     .usedCarsIndicatorsSales(oUsedCarsIndicatorsSales)
-                    .dealers(vecDealers)
+//                    .dealers(vecDealers)
                     .isCa(false)
                     .filterBeanisValidOpenMonth(isValidOpenMonth)
                     .build();
@@ -184,6 +180,21 @@ public class IndicatorServiceImpl implements IndicatorService {
             throw  new SalesException("Erro ao visualizar formul�rio do Plano de Indicadores de Venda Usados", e);
         }
     }
+
+    @Override
+    public List<Dealer>  getDealers(UserPrincipal userPrincipal, String oidDealer) {
+        List<Dealer> vecDealers = new ArrayList<>();
+        try {
+            if (userPrincipal.getRoles().contains(AppProfile.TVC_MANAGER_ROLE_ACTIVE_DEALERS))
+                return dealerUtils.getActiveMainDealersForServices(userPrincipal.getOidNet());
+
+            vecDealers.add(dealerUtils.getByObjectId(userPrincipal.getOidNet(), oidDealer));
+            return vecDealers;
+        } catch (Exception e) {
+            throw  new SalesException("Error fetching dealers", e);
+        }
+    }
+
 
     @Override
     public PrevisionFilterBean setFilter(UserPrincipal userPrincipal) {

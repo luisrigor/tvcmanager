@@ -9,6 +9,7 @@ import com.gsc.tvcmanager.dto.UsedCarsIndicatorDTO;
 import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.IndicatorService;
+import com.rg.dealer.Dealer;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Log4j
@@ -34,11 +37,12 @@ public class IndicatorsController {
     }
 
     @GetMapping(ApiEndpoints.INDICATORS_GET_FILES_LIST)
-    public ResponseEntity<IndicatorUsedFilesDTO> getIndicatorsUsedFilesList(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<?> getIndicatorsUsedFilesList(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                                             @RequestParam String oidDealer, @RequestParam Integer year,
                                                                             @RequestParam String uploadDir ) {
+        Gson gson = new Gson();
         IndicatorUsedFilesDTO indicatorsUsedFilesList = indicatorService.getIndicatorsUsedFilesList(userPrincipal, oidDealer, year, uploadDir);
-        return ResponseEntity.status(HttpStatus.OK).body(indicatorsUsedFilesList);
+        return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(indicatorsUsedFilesList));
     }
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_INDICATORS_SALES)
@@ -56,6 +60,15 @@ public class IndicatorsController {
         Gson gson = new Gson();
 
         return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(usedSales));
+    }
+
+    @GetMapping(ApiEndpoints.GET_DEALERS)
+    public ResponseEntity<?> getDealers(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                        @RequestParam String oidDealer) {
+        List<Dealer> dealers = indicatorService.getDealers(userPrincipal, oidDealer);
+        Gson gson = new Gson();
+
+        return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(dealers));
     }
 
 }

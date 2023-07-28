@@ -1,6 +1,7 @@
 package com.gsc.tvcmanager.utils;
 
 import com.rg.dealer.Dealer;
+import com.rg.objects.DealerCode;
 import com.sc.commons.exceptions.SCErrorException;
 import org.springframework.stereotype.Component;
 
@@ -23,5 +24,9 @@ public class DealerUtils {
 
     public Dealer getByObjectIdOI(String oidNet, String oidDealer) throws SCErrorException {
         return Dealer.getHelper().getByObjectId(oidNet, oidDealer);
+    }
+
+    public List<DealerCode> getDealerCodes(String oidNet, Dealer oDealer) throws SCErrorException {
+        return oDealer.getCodes(Dealer.OID_NET_TOYOTA.equals(oidNet) ? Dealer.OID_TOYOTA_CODE_DEKRA : Dealer.OID_LEXUS_CODE_DEKRA);
     }
 }

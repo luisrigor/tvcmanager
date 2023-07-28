@@ -10,8 +10,10 @@ public interface ApiEndpoints {
     String SAVE_USED_CARS_INDICATORS_SALES  = "indicator-sales";
     String GET_USED_CARS_INDICATORS_SALES  = "indicator-sales";
 
-    String PREVISION_MONTH = "/prevision-month";
+    String PREVISION_MONTH = "prevision-month";
     String SAVE_USED_CARS_PREVISION_SALES = "save-prevision-sales";
 
     String OPEN_MONTH_PREVISION = "close-month-prevision";
+    String GET_DEALERS  = "dealers";
+
 }
