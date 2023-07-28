@@ -287,8 +287,7 @@ public class IndicatorServiceTest {
         userPrincipal.setOidDealerParent("1");
         userPrincipal.setOidDealer("1");
 
-        when(dealerUtils.getActiveMainDealersForServices(anyString())).thenThrow(RuntimeException.class);
-        when(dealerUtils.getByObjectId(anyString(), anyString())).thenReturn(TVCData.getDealers().get(0));
+        when(dealerUtils.getByObjectId(anyString(), anyString())).thenThrow(RuntimeException.class);
         when(dealerUtils.getDealerCodes(anyString(), any())).thenReturn(new ArrayList<>());
 
         when(indicatorRepository.getUsedCarsIndicatorsSales(anyInt(), anyInt(), anyString())).thenReturn(Optional.of(TVCData.getIndicatorSales()));
