@@ -34,9 +34,10 @@ public class PrevisionController {
     }
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES)
-    public void saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<String> saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                            @RequestBody SavePrevisionDTO savePrevisionDto) {
         log.info("Client id " + userPrincipal.getClientId());
         previsionService.saveUsedCarsPrevisionSales(userPrincipal,savePrevisionDto);
+       return ResponseEntity.status(HttpStatus.OK).body("saved");
     }
 }
