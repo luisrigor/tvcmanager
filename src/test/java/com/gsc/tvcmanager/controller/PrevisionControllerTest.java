@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.gsc.tvcmanager.config.SecurityConfig;
 import com.gsc.tvcmanager.config.environment.EnvironmentConfig;
 import com.gsc.tvcmanager.constants.ApiEndpoints;
+import com.gsc.tvcmanager.dto.SaveIndicatorsDTO;
+import com.gsc.tvcmanager.dto.SavePrevisionDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.repository.toyota.ClientRepository;
 import com.gsc.tvcmanager.repository.toyota.ConfigurationRepository;
@@ -20,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Optional;
 
@@ -101,14 +105,20 @@ class PrevisionControllerTest {
 
         String accessToken = generatedToken;
 
-
-        doNothing().when(previsionService).saveUsedCarsPrevisionSales(any(), anyInt(), any(), any(), any(), any(), any(), any());
-
-        mvc.perform(post(BASE_REQUEST_MAPPING +"/"+ ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES+"?id=1&oidDealer=1&previsionTvc=1&previsionSn=1&actualMonth=1&actualYear=1&status=1")
-                        .header("accessToken", accessToken))
-
+        SavePrevisionDTO usedCarsPrevision = SavePrevisionDTO.builder()
+                .id(660)
+                .oidDealer("SC00020073")
+                .actualYear(2023)
+                .previsionSn(302)
+                .previsionTvc(301)
+                .status("Aberto")
+                .build();
+        doNothing().when(previsionService).saveUsedCarsPrevisionSales(any(), any());
+        mvc.perform(post(BASE_REQUEST_MAPPING +"/"+ ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES)
+                        .header("accessToken", accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(usedCarsPrevision)))
                 .andExpect(status().is2xxSuccessful());
-
 
     }
 
