@@ -2,6 +2,7 @@ package com.gsc.tvcmanager.service.impl;
 
 import com.gsc.tvcmanager.constants.AppProfile;
 import com.gsc.tvcmanager.dto.PrevisionHtDTO;
+import com.gsc.tvcmanager.dto.SavePrevisionDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.exceptions.SalesException;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsPrevisionSales;
@@ -65,24 +66,24 @@ public class PrevisionServiceImpl implements PrevisionService {
     }
 
     @Override
-    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, int id,String oidDealer,Integer previsionTvc,Integer previsionSn,Integer actualMonth,Integer actualYear,String status) {
-        int idt = StringTasks.cleanInteger(String.valueOf(id), 0);
+    public void saveUsedCarsPrevisionSales(UserPrincipal userPrincipal, SavePrevisionDTO savePrevisionDTO) {
+        int idt = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getId()), 0);
         TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
         try {
-            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(previsionTvc+actualMonth), 0);
-           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(previsionSn+actualMonth), 0);
-           String statusCar = StringTasks.cleanString(status, "Aberto");
+            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionTvc()+savePrevisionDTO.getActualMonth()), 0);
+           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionSn()+savePrevisionDTO.getActualMonth()), 0);
+           String statusCar = StringTasks.cleanString(savePrevisionDTO.getStatus(), "Aberto");
             String userStamp = userPrincipal.getUsername().split("\\|\\|")[0]+"||"+userPrincipal.getUsername().split("\\|\\|")[1];
             if(idt==0){
                 oUsedCarsPrevisionSales = TVCUsedCarsPrevisionSales
                         .builder()
-                       .oidDealer(oidDealer)
-                       .month(actualMonth)
-                       .year(actualYear)
+                       .oidDealer(savePrevisionDTO.getOidDealer())
+                       .month(savePrevisionDTO.getActualMonth())
+                       .year(savePrevisionDTO.getActualYear())
                         .previsionType(TVCUsedCarsPrevisionSales.PREVISION_TYPE_MENSAL)
                         .build();
             }else{
-                oUsedCarsPrevisionSales= previsionRepository.findById(id).get();
+                oUsedCarsPrevisionSales= previsionRepository.findById(savePrevisionDTO.getId()).get();
                 oUsedCarsPrevisionSales.setChangedBy(userStamp);
             }
             oUsedCarsPrevisionSales.setStatus(statusCar);

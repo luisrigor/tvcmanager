@@ -2,6 +2,7 @@ package com.gsc.tvcmanager.controller;
 
 import com.google.gson.Gson;
 import com.gsc.tvcmanager.constants.ApiEndpoints;
+import com.gsc.tvcmanager.dto.SavePrevisionDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.PrevisionService;
@@ -33,8 +34,9 @@ public class PrevisionController {
     }
 
     @PostMapping(ApiEndpoints.SAVE_USED_CARS_PREVISION_SALES)
-    public void saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,int id,String oidDealer,Integer previsionTvc,Integer previsionSn,Integer actualMonth,Integer actualYear,String status) {
+    public void saveUsedCarsPrevisionSales(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                           @RequestBody SavePrevisionDTO savePrevisionDto) {
         log.info("Client id " + userPrincipal.getClientId());
-        previsionService.saveUsedCarsPrevisionSales(userPrincipal,id,oidDealer,previsionTvc,previsionSn,actualMonth,actualYear,status);
+        previsionService.saveUsedCarsPrevisionSales(userPrincipal,savePrevisionDto);
     }
 }

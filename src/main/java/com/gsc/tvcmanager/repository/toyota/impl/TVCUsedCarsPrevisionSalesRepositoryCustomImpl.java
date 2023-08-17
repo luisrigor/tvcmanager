@@ -24,7 +24,8 @@ public class TVCUsedCarsPrevisionSalesRepositoryCustomImpl implements TVCUsedCar
         }
 
         Query query = em.createNativeQuery(sql, TVCUsedCarsPrevisionSales.class);
-        List<TVCUsedCarsPrevisionSales> previsionSalesList = query.setParameter("year", year)
+        List<TVCUsedCarsPrevisionSales> previsionSalesList =
+                query.setParameter("year", year)
                 .setParameter("month", month)
                 .setParameter("previsionType", previsionType)
                 .getResultList();
