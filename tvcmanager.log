@@ -8,3 +8,4 @@
 17 ago 2023 16:19:25,265 ERROR: [PrevisionServiceImpl.saveUsedCarsPrevisionSales(93)] - Guardar Previs�o de vendas usados),Erro ao guardar formul�rio de Previs�o de vendas usados
 17 ago 2023 16:19:55,525 INFO : [PrevisionController.saveUsedCarsPrevisionSales(37)] - Client id 13
 17 ago 2023 16:37:07,933 INFO : [PrevisionController.saveUsedCarsPrevisionSales(39)] - Client id 13
+17 ago 2023 16:42:03,723 INFO : [PrevisionController.saveUsedCarsPrevisionSales(39)] - Client id 13

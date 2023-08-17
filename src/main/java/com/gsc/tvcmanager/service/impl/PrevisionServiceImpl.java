@@ -70,8 +70,8 @@ public class PrevisionServiceImpl implements PrevisionService {
         int idt = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getId()), 0);
         TVCUsedCarsPrevisionSales oUsedCarsPrevisionSales;
         try {
-            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionTvc()+savePrevisionDTO.getActualMonth()), 0);
-           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionSn()+savePrevisionDTO.getActualMonth()), 0);
+            int previsionTvcCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionTvc()), 0);
+           int previsionSnCar = StringTasks.cleanInteger(String.valueOf(savePrevisionDTO.getPrevisionSn()), 0);
            String statusCar = StringTasks.cleanString(savePrevisionDTO.getStatus(), "Aberto");
             String userStamp = userPrincipal.getUsername().split("\\|\\|")[0]+"||"+userPrincipal.getUsername().split("\\|\\|")[1];
             if(idt==0){
