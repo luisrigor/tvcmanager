@@ -12,6 +12,7 @@ import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsIndicatorsSales;
 import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsIndicatorsSalesLines;
 import com.gsc.tvcmanager.repository.toyota.IndicatorRepository;
+import com.gsc.tvcmanager.repository.toyota.TVCUsedCarsIndicatorsSalesLinesRepository;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.IndicatorService;
 import com.gsc.tvcmanager.utils.DealerUtils;
@@ -41,6 +42,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     public static final String STATUS_REOPEN	= "Reaberto";
     public static final String STATUS = "status";
     private final IndicatorRepository indicatorRepository;
+    private final TVCUsedCarsIndicatorsSalesLinesRepository salesLinesRepository;
 
     @Override
     public IndicatorUsedFilesDTO getIndicatorsUsedFilesList(UserPrincipal userPrincipal, String oidDealer, Integer year, String uploadDir) {
@@ -204,5 +206,11 @@ public class IndicatorServiceImpl implements IndicatorService {
                .month(DateTimerTasks.getCurMonth() == 1 ? 12:DateTimerTasks.getCurMonth())
                .oidDealer(userPrincipal.getOidDealer())
                .build();
+    }
+
+    @Override
+    public List<TVCUsedCarsIndicatorsSalesLines>  getIndicatorsSalesLines(Integer idUsedCars) {
+
+        return salesLinesRepository.getByUsedCarsIndicatorsSalesId(idUsedCars);
     }
 }

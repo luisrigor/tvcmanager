@@ -7,6 +7,7 @@ import com.gsc.tvcmanager.dto.IndicatorUsedFilesDTO;
 import com.gsc.tvcmanager.dto.SaveIndicatorsDTO;
 import com.gsc.tvcmanager.dto.UsedCarsIndicatorDTO;
 import com.gsc.tvcmanager.model.toyota.entity.PrevisionFilterBean;
+import com.gsc.tvcmanager.model.toyota.entity.TVCUsedCarsIndicatorsSalesLines;
 import com.gsc.tvcmanager.security.UserPrincipal;
 import com.gsc.tvcmanager.service.IndicatorService;
 import com.rg.dealer.Dealer;
@@ -69,6 +70,15 @@ public class IndicatorsController {
         Gson gson = new Gson();
 
         return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(dealers));
+    }
+
+
+    @GetMapping(ApiEndpoints.GET_SALES_LINES)
+    public ResponseEntity<List<TVCUsedCarsIndicatorsSalesLines>> getIndicatorsSalesLines(@RequestParam Integer idUsedCars) {
+        List<TVCUsedCarsIndicatorsSalesLines> salesLines = indicatorService.getIndicatorsSalesLines(idUsedCars);
+
+        return ResponseEntity.status(HttpStatus.OK).body(salesLines);
+
     }
 
 }

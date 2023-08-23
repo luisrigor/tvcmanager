@@ -15,5 +15,6 @@ public interface ApiEndpoints {
 
     String OPEN_MONTH_PREVISION = "close-month-prevision";
     String GET_DEALERS  = "dealers";
+    String GET_SALES_LINES  = "sales-lines";
 
 }
