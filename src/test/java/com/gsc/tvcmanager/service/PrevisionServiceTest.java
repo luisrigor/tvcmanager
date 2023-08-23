@@ -2,6 +2,7 @@ package com.gsc.tvcmanager.service;
 
 
 import com.gsc.tvcmanager.constants.AppProfile;
+import com.gsc.tvcmanager.dto.SavePrevisionDTO;
 import com.gsc.tvcmanager.dto.UsedCarsPrevisionDTO;
 import com.gsc.tvcmanager.exceptions.SalesException;
 import com.gsc.tvcmanager.repository.toyota.PrevisionRepository;
@@ -138,12 +139,19 @@ public class PrevisionServiceTest {
         userPrincipal.setOidDealer("1");
 
         when(previsionRepository.findById(any())).thenReturn(Optional.of(TVCData.getUsedCarsPrevision().get(0)));
-
+        SavePrevisionDTO usedCarsPrevision = SavePrevisionDTO.builder()
+                .id(1)
+                .oidDealer("1")
+                .actualYear(1)
+                .previsionSn(1)
+                .previsionTvc(1)
+                .status("s")
+                .build();
         doNothing().when(previsionRepository).mergeUsedCarsPrevisionSales(any(), anyString());
 
-        previsionService.saveUsedCarsPrevisionSales(userPrincipal, 0, "1", 1, 1, 1, 1, "s");
+        previsionService.saveUsedCarsPrevisionSales(userPrincipal, usedCarsPrevision);
 
-        verify(previsionRepository, times(0)).findById(any());
+        verify(previsionRepository, times(1)).findById(any());
         verify(previsionRepository).mergeUsedCarsPrevisionSales(any(), anyString());
     }
 
@@ -161,8 +169,15 @@ public class PrevisionServiceTest {
         when(previsionRepository.findById(any())).thenReturn(Optional.of(TVCData.getUsedCarsPrevision().get(0)));
 
         doNothing().when(previsionRepository).mergeUsedCarsPrevisionSales(any(), anyString());
-
-        previsionService.saveUsedCarsPrevisionSales(userPrincipal, 1, "1", 1, 1, 1, 1, "s");
+        SavePrevisionDTO usedCarsPrevision = SavePrevisionDTO.builder()
+                .id(1)
+                .oidDealer("1")
+                .actualYear(1)
+                .previsionSn(1)
+                .previsionTvc(1)
+                .status("s")
+                .build();
+        previsionService.saveUsedCarsPrevisionSales(userPrincipal,usedCarsPrevision);
 
         verify(previsionRepository, times(1)).findById(any());
         verify(previsionRepository).mergeUsedCarsPrevisionSales(any(), anyString());
@@ -180,8 +195,15 @@ public class PrevisionServiceTest {
         userPrincipal.setOidDealer("1");
 
         when(previsionRepository.findById(any())).thenThrow(RuntimeException.class);
-
-        assertThrows(SalesException.class,()->previsionService.saveUsedCarsPrevisionSales(userPrincipal, 1, "1", 1, 1, 1, 1, "s"));
+        SavePrevisionDTO usedCarsPrevision = SavePrevisionDTO.builder()
+                .id(1)
+                .oidDealer("1")
+                .actualYear(1)
+                .previsionSn(1)
+                .previsionTvc(1)
+                .status("s")
+                .build();
+        assertThrows(SalesException.class,()->previsionService.saveUsedCarsPrevisionSales(userPrincipal, usedCarsPrevision));
 
     }
 

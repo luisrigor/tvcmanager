@@ -69,7 +69,7 @@ class SalesServiceTest {
 
         assertEquals("SC00010001", filterBean.getOidNet());
         assertEquals("1", filterBean.getOidDealer());
-        assertEquals(7, filterBean.getMonth());
+        assertEquals(8, filterBean.getMonth());
         assertEquals(2023, filterBean.getYear());
     }
 

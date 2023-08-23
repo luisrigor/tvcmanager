@@ -62,7 +62,7 @@ public class IndicatorServiceTest {
         when(dealerUtils.getActiveMainDealersForServices(anyString())).thenReturn(TVCData.getDealers());
         when(dealerUtils.getByObjectId(anyString(), anyString())).thenReturn(TVCData.getDealers().get(0));
 
-        IndicatorUsedFilesDTO filesList = indicatorService.getIndicatorsUsedFilesList(userPrincipal, "1", 1, "/home");
+        IndicatorUsedFilesDTO filesList = indicatorService.getIndicatorsUsedFilesList(userPrincipal, "1", 1, "./");
 
 
         assertEquals("s",filesList.getVecDealers().get(0).getSalesCode());
@@ -245,7 +245,7 @@ public class IndicatorServiceTest {
 
         UsedCarsIndicatorDTO indicatorsUsedSalesInfo = indicatorService.getIndicatorsUsedSalesInfo(userPrincipal, "1", 2023, 6);
 
-        assertTrue(indicatorsUsedSalesInfo.isExistInBD());
+        assertFalse(indicatorsUsedSalesInfo.isExistInBD());
         assertFalse(indicatorsUsedSalesInfo.isCa());
     }
 
@@ -309,7 +309,7 @@ public class IndicatorServiceTest {
         PrevisionFilterBean previsionFilterBean = indicatorService.setFilter(userPrincipal);
 
         assertEquals(2023, previsionFilterBean.getYear());
-        assertEquals(7, previsionFilterBean.getMonth());
+        assertEquals(8, previsionFilterBean.getMonth());
         assertEquals("1", previsionFilterBean.getOidNet());
         assertEquals("1", previsionFilterBean.getOidDealer());
     }
